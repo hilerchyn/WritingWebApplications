@@ -1,7 +1,7 @@
-Saving Pages
+## 保存页面
 
-The function saveHandler will handle the submission of forms located on the edit pages. After uncommenting the related line in main, let's implement the handler:
-
+saveHandler 函数接受用户的表单提交，并且在保存成功以后将浏览器重定向到详情页面
+```golang
 func saveHandler(w http.ResponseWriter, r *http.Request) {
     title := r.URL.Path[len("/save/"):]
     body := r.FormValue("body")
@@ -9,7 +9,5 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
     p.save()
     http.Redirect(w, r, "/view/"+title, http.StatusFound)
 }
-
-The page title (provided in the URL) and the form's only field, Body, are stored in a new Page. The save()method is then called to write the data to a file, and the client is redirected to the /view/ page.
-
-The value returned by FormValue is of type string. We must convert that value to []byte before it will fit into the Page struct. We use []byte(body) to perform the conversion.
+```
+页面的标题通过Http的url传递过来，文件的内存则是body中的表单数据，这里FormValue方法返回的是一个string类型的值，我们需要用[]byte()强制转换成字节数组才能保存成文件，http.Redirect是在保存成功以后重定向浏览器到一个新的页面。
