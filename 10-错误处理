@@ -1,12 +1,11 @@
-Error handling
-
-There are several places in our program where errors are being ignored. This is bad practice, not least because when an error does occur the program will have unintended behavior. A better solution is to handle the errors and return an error message to the user. That way if something does go wrong, the server will function exactly how we want and the user can be notified.
-
-First, let's handle the errors in renderTemplate:
-
+## 出错处理
+我们的web服务在出现错误的时候，错误都会被我们忽视掉，但是，这并不是一个好的做法，因为忽视错误可能会产生更多无法预期的行为，好点的做法是在服务出错的时候，我们应该返回一个错误信息给客户端，告知客户端出现了一个预期之外的错误。<br>
+我们来看下renderTemplate函数是如何处理错误的
+```golang
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
     t, err := template.ParseFiles(tmpl + ".html")
     if err != nil {
+        //返回错误信息，并且返回特殊的http状态吗，通常是5xx
         http.Error(w, err.Error(), http.StatusInternalServerError)
         return
     }
@@ -15,11 +14,10 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
         http.Error(w, err.Error(), http.StatusInternalServerError)
     }
 }
-
-The http.Error function sends a specified HTTP response code (in this case "Internal Server Error") and error message. Already the decision to put this in a separate function is paying off.
-
-Now let's fix up saveHandler:
-
+```
+http.Error方法发送一个特殊的http返回码给客户端，这个例子中，是Internal Server Error错误码，如果我没有记错的话应该500，这里还加上一个错误信息err.<br>
+现在我们来修改aveHandler方法吧
+```go
 func saveHandler(w http.ResponseWriter, r *http.Request) {
     title := r.URL.Path[len("/save/"):]
     body := r.FormValue("body")
@@ -31,5 +29,5 @@ func saveHandler(w http.ResponseWriter, r *http.Request) {
     }
     http.Redirect(w, r, "/view/"+title, http.StatusFound)
 }
-
-Any errors that occur during p.save() will be reported to the user.
+···
+这个月，在调用p.save() 时候出现的错误都会被通知给用户。

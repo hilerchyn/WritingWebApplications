@@ -1,7 +1,6 @@
-Handling non-existent pages
-
-What if you visit /view/APageThatDoesntExist? You'll see a page containing HTML. This is because it ignores the error return value from loadPage and continues to try and fill out the template with no data. Instead, if the requested Page doesn't exist, it should redirect the client to the edit Page so the content may be created:
-
+## 处理404页面
+假如你要访问/view/APageThatDoesntExist这样一个不存在的页面，你还是能看到也看一个带有HTML标签的404页面，这是因为他返回的是golang服务器加载模板文件失败的错误信息。正常情况下，找不到页面的时候，我们应该重定向浏览器到一个合适的页面。
+```go
 func viewHandler(w http.ResponseWriter, r *http.Request) {
     title := r.URL.Path[len("/view/"):]
     p, err := loadPage(title)
@@ -11,5 +10,5 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
     }
     renderTemplate(w, "view", p)
 }
-
-The http.Redirect function adds an HTTP status code of http.StatusFound (302) and a Location header to the HTTP response.
+```
+http.Redirect需要一个重定向状态吗，和一个重定向的url，这个状态通常是302，重定向的url一般放在http返回的header的Location字段中
