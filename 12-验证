@@ -2,6 +2,8 @@ Validation
 
 As you may have observed, this program has a serious security flaw: a user can supply an arbitrary path to be read/written on the server. To mitigate this, we can write a function to validate the title with a regular expression.
 
+正如你可能观察到的，这个程序有严重的安全问题：一个用户可以随意提供路径在服务器上度/写。为缓解这个问题，我们可以写一个函数使用正则表达式校验标题。
+
 First, add "regexp" to the import list. Then we can create a global variable to store our validation expression:
 
 var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
