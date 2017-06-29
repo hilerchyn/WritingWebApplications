@@ -1,6 +1,9 @@
 Error handling
+错误处理
 
 There are several places in our program where errors are being ignored. This is bad practice, not least because when an error does occur the program will have unintended behavior. A better solution is to handle the errors and return an error message to the user. That way if something does go wrong, the server will function exactly how we want and the user can be notified.
+
+在我们的代码里有几处地方的错误是被忽略的。这是不好的实践，因为当一个错误一旦发生，程序会出现不可预期的行为。
 
 First, let's handle the errors in renderTemplate:
 
