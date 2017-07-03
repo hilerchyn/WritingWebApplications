@@ -1,11 +1,10 @@
-Try it out!
+试试吧！
 
-Click here to view the final code listing.
+点击此处查看最终代码里列表。
 
-Recompile the code, and run the app:
+重新编译代码，并运行应用程序：
 
 $ go build wiki.go
 $ ./wiki
 
-
-Visiting http://localhost:8080/view/ANewPage should present you with the page edit form. You should then be able to enter some text, click 'Save', and be redirected to the newly created page.
+访问：http://localhost:8080/view/ANewPage应该显示给你页面编辑表单。你应该能够输入一些文本，点击“Save"按钮，被跳转到新创建的页面。
